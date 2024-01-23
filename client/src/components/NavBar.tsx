@@ -1,11 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { AuthContext } from "@/provider/AuthProvider";
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 
 export default function NavBar() {
     const navigate = useNavigate();
+
     const location = useLocation();
+    const { user, logOut } = useContext(AuthContext);
 
     const links = [
         {
@@ -19,11 +23,11 @@ export default function NavBar() {
         },
     ];
 
-    // function logOutHandler() {
-    //     logOut().then(() => {
-    //         console.log("User logged out");
-    //     });
-    // }
+    function logOutHandler() {
+        if (logOut) {
+            logOut();
+        }
+    }
 
     return (
         <nav className="flex items-center mb-20 mt-5 mx-5">
@@ -52,25 +56,23 @@ export default function NavBar() {
                 </ul>
             </div>
             <div className="navend flex justify-end items-center gap-5">
-                {/* {user && (
+                {user && (
                     <div className="flex justify-center items-center gap-3">
                         <h3 className="hidden md:block">{user?.email}</h3>
-                        <Avatar>
-                            <AvatarFallback>AB</AvatarFallback>
-                            <AvatarImage src={user?.photoURL as string} />
-                        </Avatar>
                     </div>
                 )}
                 {user ? (
                     <Button onClick={logOutHandler}>Log Out</Button>
                 ) : (
-                )} */}
-                <>
-                    <Button onClick={() => navigate("/login")}>Log In</Button>
-                    <Button onClick={() => navigate("/register")}>
-                        Register
-                    </Button>
-                </>
+                    <>
+                        <Button onClick={() => navigate("/login")}>
+                            Log In
+                        </Button>
+                        <Button onClick={() => navigate("/register")}>
+                            Register
+                        </Button>
+                    </>
+                )}
             </div>
         </nav>
     );
