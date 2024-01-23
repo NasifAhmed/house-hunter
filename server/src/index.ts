@@ -20,8 +20,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/user", async (req, res) => {
-    const cursor = await User.find().then(() => {
-        res.send(cursor);
+    await User.find(req.body).then((response) => {
+        res.send(response);
     });
 });
 
@@ -37,7 +37,7 @@ app.post("/user", async (req: Request, res) => {
         });
 });
 
-app.put("/user", async (req: Request, res) => {
+app.patch("/user", async (req: Request, res) => {
     await User.updateOne(req.body)
         .then((response) => {
             res.send(response);
