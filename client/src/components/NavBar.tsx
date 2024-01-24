@@ -18,7 +18,11 @@ export default function NavBar() {
         },
 
         {
-            name: "Task Dashboard",
+            name: "Add House",
+            url: "/add-house",
+        },
+        {
+            name: "Dashboard",
             url: "/dashboard",
         },
     ];
