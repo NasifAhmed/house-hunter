@@ -10,7 +10,7 @@ type logInData = {
 type authContext = {
     user: userType;
     loading: boolean;
-    createUser: (arg: logInData) => void;
+    createUser: (arg: userType) => void;
     logIn: (arg: logInData) => void;
     logOut: () => void;
     error: string;
