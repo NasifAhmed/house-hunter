@@ -1,5 +1,3 @@
-import { CipherCCMTypes } from "crypto";
-
 export type userType = {
     name: string;
     email: string;
@@ -8,6 +6,7 @@ export type userType = {
 };
 
 export type houseType = {
+    owner: string;
     name: string;
     address: string;
     city: string;
