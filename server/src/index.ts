@@ -3,6 +3,7 @@ import express, { Request } from "express";
 import morgan from "morgan";
 import { User } from "./model/user";
 import { connectDB } from "./utilities/connectDB";
+import { House } from "./model/house";
 
 const app = express();
 
@@ -52,6 +53,19 @@ app.delete("/user", morgan("dev"), async (req: Request, res) => {
             res.send(response);
         })
         .catch((error) => console.log(error));
+});
+
+app.post("/house", morgan("dev"), async (req: Request, res) => {
+    const houseData = new House(req.body);
+    await houseData
+        .save()
+        .then((response) => {
+            console.log(response);
+            res.send(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 });
 
 const port = 5000;

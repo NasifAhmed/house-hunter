@@ -3,11 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAxios } from "@/hooks/useAxios";
+import { AuthContext } from "@/provider/AuthProvider";
 import { houseType } from "@/types/types";
 import { imgBBupload } from "@/utils/imgBBupload";
+import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-function AddCamp() {
+function AddHouse() {
     const {
         control,
         handleSubmit,
@@ -16,25 +18,42 @@ function AddCamp() {
     } = useForm<houseType>();
 
     const axios = useAxios();
+    const { user } = useContext(AuthContext);
 
     const submitHandler = async (data: houseType) => {
         imgBBupload(data.picture).then((res) => {
             console.log(`ImageBB upload response ${JSON.stringify(res)}`);
 
-            const house: houseType = { ...data };
+            const house: houseType = {
+                ...data,
+                picture: res.data.data.url,
+                owner: user?.email as string,
+            };
 
             console.log(house);
 
             axios
                 .post("/house", house)
                 .then((res) => {
-                    console.log(`Camp post response ${res}`);
+                    console.log(`House post response ${res}`);
                 })
-                .catch((e) => console.log(`Camp post error : ${e}`));
+                .catch((e) => console.log(`House post error : ${e}`));
         });
+        // const house: houseType = {
+        //     ...data,
+        //     picture: "test",
+        //     owner: user?.email as string,
+        // };
 
-        console.log(data);
-        reset();
+        // axios
+        //     .post("/house", house)
+        //     .then((res) => {
+        //         console.log(`House post response ${res}`);
+        //     })
+        //     .catch((e) => console.log(`House post error : ${e}`));
+
+        // console.log(data);
+        // reset();
     };
 
     return (
@@ -364,4 +383,4 @@ function AddCamp() {
     );
 }
 
-export default AddCamp;
+export default AddHouse;
