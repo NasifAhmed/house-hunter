@@ -1,9 +1,9 @@
 import cors from "cors";
 import express, { Request } from "express";
 import morgan from "morgan";
+import { House } from "./model/house";
 import { User } from "./model/user";
 import { connectDB } from "./utilities/connectDB";
-import { House } from "./model/house";
 
 const app = express();
 
@@ -53,6 +53,12 @@ app.delete("/user", morgan("dev"), async (req: Request, res) => {
             res.send(response);
         })
         .catch((error) => console.log(error));
+});
+
+app.get("/house", morgan("dev"), async (req, res) => {
+    await House.find(req.query).then((response) => {
+        res.send(response);
+    });
 });
 
 app.post("/house", morgan("dev"), async (req: Request, res) => {
